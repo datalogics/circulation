@@ -389,7 +389,7 @@ class EnkiAPI(BaseCirculationAPI):
         return self.request(url, method='get', params=args)
 
     def checkin(self, patron, pin, licensepool):
-        self.log.debug ("Sending checkin request for %s" % book_id)
+        self.log.info("Sending checkin request for %s" % book_id)
         url = str(self.base_url) + str(self.user_endpoint)
         args = dict()
         args['method'] = "returnEContentRecord"
