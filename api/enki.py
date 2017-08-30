@@ -388,6 +388,19 @@ class EnkiAPI(BaseCirculationAPI):
 
         return self.request(url, method='get', params=args)
 
+    def checkin(self, patron, pin, licensepool):
+        self.log.debug ("Sending checkin request for %s" % book_id)
+        url = str(self.base_url) + str(self.user_endpoint)
+        args = dict()
+        args['method'] = "returnEContentRecord"
+        args['username'] = patron.authorization_identifier
+        args['password'] = pin
+        args['lib'] = self.library_id
+        args['id'] = licensepool.identifier.identifier
+
+        response = self.request(url, method='get', params=args)
+        return response 
+
     def parse_patron_loans(self, checkout_data):
         # We should receive a list of JSON objects
         enki_id = checkout_data['recordId']
