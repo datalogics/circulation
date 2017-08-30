@@ -142,7 +142,8 @@ class TestEnkiAPI(DatabaseTest, BaseEnkiTest):
         loan = self.api.checkout(patron,'1234',pool,None)
 
     def test_checkin_success(self):
-        """All our checkin method does is send a request to the Enki server
+        """Test the checkin method to make sure it doesn't break.
+        All our checkin method does is send a request to the Enki server
         and receive a response without any handling of said response. This
         test just makes sure we receive something that's not None and that
         no exceptions are raised."""
