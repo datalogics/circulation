@@ -141,6 +141,30 @@ class TestEnkiAPI(DatabaseTest, BaseEnkiTest):
 
         loan = self.api.checkout(patron,'1234',pool,None)
 
+    def test_checkin_success(self):
+        """All our checkin method does is send a request to the Enki server
+        and receive a response without any handling of said response. This
+        test just makes sure we receive something that's not None and that
+        no exceptions are raised."""
+        data = self.get_data("checkin_success.json")
+        self.api.queue_response(200, content=data)
+        result = json.loads(data)
+
+        edition, pool = self._edition(
+            identifier_type=Identifier.ENKI_ID,
+            data_source_name=DataSource.ENKI,
+            with_license_pool=True
+        )
+        pool.identifier.identifier = 'econtentRecord1'
+
+        patron = self._patron(external_identifier='12345678901234')
+
+        try:
+            response = self.api.checkin(patron,'1234',pool)
+            assert_not_equal(None,response)
+        except:
+            assert False
+
 class TestBibliographicCoverageProvider(TestEnkiAPI):
 
     """Test the code that looks up bibliographic information from Enki."""
